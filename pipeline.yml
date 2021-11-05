@@ -1,0 +1,15 @@
+- hosts: localhost
+
+  tasks:
+
+    - name: Run terraform with AWS env from vault
+      ansible.builtin.shell: |
+        cd {{ ci_work_dir }}
+        ansible-galaxy install -r requirements.yml
+        . ./pipeline-env.shl
+        terraform init -input=false
+        terraform plan -out=tfplan -input=false
+        terraform apply -input=false tfplan
+      environment:
+        LOCAL_AWS_ACCESS_ID: "{{ aws_key_id }}"
+        LOCAL_AWS_ACCESS_KEY: "{{ aws_key_secret }}"
