@@ -1,15 +1,23 @@
-# Terraform on AWS with Ansible
+# Terraform on AWS with CI Pipeline built from Ansible
 
-This examples uses ansible vault to supply AWS credentials to terraform using an ansible provisioner
+Builds EC2 instance on AWS provisioned by ansible. 2 entry points exist:
+  * Jenkinsfile - configured for use with @wahlax/ansible-ci
+  * Local ansible pipeline - use ansible-vault for credentials
+
+Example using local ansible pipeline and vault to supply AWS credentials to terraform
 
 ```
 ansible-playbook -i inventory.ini pipeline.yml -e "ci_work_dir=`pwd`" -e "@vault/secrets.yml" --vault-password-file vault/password-file
 ```
+VAULT:
+
+  * `aws-key-id` - id for aws provisioning
+  * `aws-key-secret` - secret for aws provisioning
 
 FILES:
 
   * `pipeline.yml` - entry point for ansible
-  * `pipeline-env.shl` - sets env for terraform
+  * `terraform-env.shl` - sets env for terraform
   * `inventory.ini` - defines localhost only right now
   * `main.tf` - aws infra definition in terraform
   * `provisioner.yml` - ansible provisioner used by terraform
