@@ -6,7 +6,7 @@
       ansible.builtin.shell: |
         cd {{ ci_work_dir }}
         ansible-galaxy install -r requirements.yml
-        . ./pipeline-env.shl
+        . ./terraform-env.shl
         terraform init -input=false
         terraform plan -out=tfplan -input=false
         terraform apply -input=false tfplan
